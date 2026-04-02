@@ -1,4 +1,7 @@
-import { Link, useLocation } from "wouter";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LayoutDashboard, ArrowRightLeft, FileText, Users, Receipt, BarChart3, Settings as SettingsIcon, Menu, Bell, Search, Plus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -17,13 +20,13 @@ const navItems = [
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const [location] = useLocation();
+  const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const NavLinks = ({ onClick }: { onClick?: () => void }) => (
     <nav className="space-y-1">
       {navItems.map((item) => {
-        const isActive = location.startsWith(item.path);
+        const isActive = pathname.startsWith(item.path);
         const Icon = item.icon;
         return (
           <Link key={item.path} href={item.path} onClick={onClick}>
@@ -133,7 +136,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="flex-1 overflow-y-auto bg-muted/20">
           <AnimatePresence mode="wait">
             <motion.div
-              key={location}
+              key={pathname}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
